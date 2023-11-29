@@ -6,7 +6,7 @@ if (isset($_POST["login"])) {
     $nama = $_POST["username"];
     $password = $_POST["password"];
 
-    $result = mysqli_query($conn, "SELECT * FROM regist WHERE nama='$nama'");
+    $result = mysqli_query($conn, "SELECT * FROM penulis_user WHERE nama='$nama'");
 
     if (mysqli_num_rows($result) === 1) {
         $row = mysqli_fetch_assoc($result);
@@ -50,7 +50,7 @@ if (isset($_POST["login"])) {
         </form>
 
         <div class="register-link">
-            Belum punya akun? <a href="../projectrpl/register.php">Daftar disini</a>
+            Belum punya akun? <a href="register.php">Daftar disini</a>
         </div>
     </div>
 </body>

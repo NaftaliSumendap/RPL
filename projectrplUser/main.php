@@ -1,12 +1,12 @@
 <?php
-require '../functions/functions.php';
+require '../functions/function_user.php';
 
 if (isset($_POST["login"])) {
 
     $nama = $_POST["username"];
     $password = $_POST["password"];
 
-    $result = mysqli_query($conn, "SELECT * FROM regist WHERE nama='$nama'");
+    $result = mysqli_query($conn, "SELECT * FROM data_user WHERE nama='$nama'");
 
     if (mysqli_num_rows($result) === 1) {
         $row = mysqli_fetch_assoc($result);
@@ -36,7 +36,7 @@ if (isset($_POST["login"])) {
             <?php if (isset($error)) : ?>
                 <p style="color: red; font-style: italic;">username / password salah</p>
             <?php endif; ?>
-            <label for="username">Username:</label>
+            <label for="username">Email/Username:</label>
             <input type="text" id="username" name="username" required>
 
             <label for="password">Password:</label>
@@ -50,7 +50,7 @@ if (isset($_POST["login"])) {
         </form>
 
         <div class="register-link">
-            Belum punya akun? <a href="../projectrpl/register.php">Daftar disini</a>
+            Belum punya akun? <a href="register.php">Daftar disini</a>
         </div>
     </div>
 </body>
