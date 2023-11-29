@@ -26,7 +26,7 @@
         </form>
 
         <div class="register-link">
-            Belum punya akun? <a href="../projectrpl/register.html">Daftar disini</a>
+            Belum punya akun? <a href="../projectrpl/register.php">Daftar disini</a>
         </div>
     </div>
 </body>
