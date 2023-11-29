@@ -1,0 +1,74 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+}
+
+section {
+    margin: 20px;
+}
+
+.profileDetails {
+    display: flex;
+    align-items: center;
+}
+
+.profileDetails img {
+    border-radius: 50%;
+    margin-right: 10px;
+    width: 150px; /* Atur lebar gambar profil */
+    height: 150px; /* Atur tinggi gambar profil */
+    object-fit: cover;
+}
+
+
+.book {
+    display: inline-block; /* Menampilkan buku secara horizontal */
+    margin-right: 20px;
+}
+
+.book img {
+    max-width: 100px; /* Ukuran gambar maksimum */
+    height: auto;
+    display: block;
+}
+
+.review {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.manageAccountButton,
+.preferencesButton {
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+}
