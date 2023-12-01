@@ -33,3 +33,18 @@ function registrasi($data)
 
     return mysqli_affected_rows($conn);
 }
+
+function tambahBuku($data)
+{
+    global $conn;
+
+    $nama = $data["bookTitle"];
+    $penulis = $data["bookAuthor"];
+    $genre = $data["bookGenre"];
+    $desc = $data["bookDescription"];
+    $image = $data["bookImage"];
+
+    mysqli_query($conn, "INSERT INTO buku VALUES(null, '$nama', '$penulis', '$genre', '$desc', '$image')");
+
+    return mysqli_affected_rows($conn);
+}
