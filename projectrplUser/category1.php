@@ -1,5 +1,11 @@
+<?php
+require '../functions/functions.php';
+
+$user = query("SELECT * FROM buku WHERE genre='Ilmu Komputer dan Teknologi'");
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +13,7 @@
     <link rel="stylesheet" href="category1(2).css">
     <title>Ilmu Komputer dan Teknologi</title>
 </head>
+
 <body>
     <header>
         <h1>Ilmu Komputer dan Teknologi</h1>
@@ -17,30 +24,26 @@
         </nav>
     </header>
 
+    <?php $i = 1; ?>
     <section id="bookList">
         <!-- Daftar buku kategori Ilmu Komputer dan Teknologi ditampilkan di sini -->
-        <div class="book">
-            <img src="computer_book1.jpg" alt="Book Cover">
-            <a href="dbcomputer_book1.html"><h3>Judul Buku 1</h3></a>
-            <p>Penulis: Penulis Buku 1</p>
-        </div>
-
-        <div class="book">
-            <img src="computer_book2.jpg" alt="Book Cover">
-            <a href="dbcomputer_book2.html"><h3>Judul Buku 2</h3></a>
-            <p>Penulis: Penulis Buku 2</p>
-        </div>
-
-        <div class="book">
-            <img src="computer_book3.jpg" alt="Book Cover">
-            <a href="dbcomputer_book3.html"><h3>Judul Buku 3</h3></a>
-            <p>Penulis: Penulis Buku 3</p>
-        </div>
-        <!-- Tambahkan lebih banyak buku sesuai kebutuhan -->
+        <?php $i = 1; ?>
+        <?php foreach ($user as $row) : ?>
+            <div class="book">
+                <img src="../projectrpl/images/<?php echo $row["gambar"]; ?>" alt="Book Cover">
+                <a href="dbcomputer_book1.html">
+                    <h3><?php echo $row["namaBuku"]; ?></h3>
+                </a>
+                <p>Penulis: <?php echo $row["penulis"]; ?></p>
+            </div>
+            <?php $i++ ?>
+        <?php endforeach; ?>
     </section>
+    <?php $i++; ?>
 
     <footer>
         <p>&copy; 2023 Ilmu Komputer dan Teknologi. All rights reserved.</p>
     </footer>
 </body>
+
 </html>

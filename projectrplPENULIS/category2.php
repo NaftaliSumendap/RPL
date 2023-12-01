@@ -1,5 +1,11 @@
+<?php
+require '../functions/functions_penulis.php';
+
+$user = query("SELECT * FROM buku WHERE genre='Kesehatan dan Kebugaran'");
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +13,7 @@
     <link rel="stylesheet" href="category1(2).css">
     <title>Kesehatan dan Kebugaran</title>
 </head>
+
 <body>
     <header>
         <h1>Kesehatan dan Kebugaran</h1>
@@ -17,30 +24,28 @@
         </nav>
     </header>
 
+    <?php $i = 1; ?>
     <section id="bookList">
         <!-- Daftar buku kategori Kesehatan dan Kebugaran ditampilkan di sini -->
-        <div class="book">
-            <img src="health_book1.jpg" alt="Book Cover">
-            <a href="dbhealth_book1.html"><h3>Judul Buku 1</h3></a>
-            <p>Penulis: Penulis Buku 1</p>
-        </div>
-
-        <div class="book">
-            <img src="health_book2.jpg" alt="Book Cover">
-            <a href="dbhealth_book2.html"><h3>Judul Buku 2</h3></a>
-            <p>Penulis: Penulis Buku 2</p>
-        </div>
-
-        <div class="book">
-            <img src="health_book3.jpg" alt="Book Cover">
-            <a href="dbhealth_book3.html"><h3>Judul Buku 3</h3></a>
-            <p>Penulis: Penulis Buku 3</p>
-        </div>
+        <?php $i = 1; ?>
+        <?php foreach ($user as $row) : ?>
+            <div class="book">
+                <img src="../projectrpl/images/<?php echo $row["gambar"]; ?>" alt="Book Cover">
+                <a href="dbhealth_book1.html">
+                    <h3><?php echo $row["namaBuku"]; ?></h3>
+                </a>
+                <p>Penulis: <?php echo $row["penulis"]; ?></p>
+            </div>
+            <?php $i++ ?>
+        <?php endforeach; ?>
         <!-- Tambahkan lebih banyak buku sesuai kebutuhan -->
     </section>
+    <?php $i++; ?>
+
 
     <footer>
         <p>&copy; 2023 Kesehatan dan Kebugaran. All rights reserved.</p>
     </footer>
 </body>
+
 </html>

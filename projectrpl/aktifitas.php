@@ -29,7 +29,7 @@ if (isset($_POST["tambahBuku"])) {
             <ul>
                 <li><a href="hpuser.html">Beranda</a></li>
                 <li><a href="profil_anggota.html">Profil</a></li>
-                <li><a href="aktifitas.html">Aktifitas</a></li>
+                <li><a href="aktifitas.php">Aktifitas</a></li>
             </ul>
         </nav>
     </header>
