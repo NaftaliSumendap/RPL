@@ -44,3 +44,15 @@ function query($query)
     }
     return $rows;
 }
+
+function cari($keyword)
+{
+    $query = "SELECT * FROM buku 
+    WHERE 
+    namaBuku LIKE '%$keyword%' OR
+    penulis LIKE '%$keyword$%' OR
+    genre LIKE '%$keyword$%'
+    ";
+
+    return query($query);
+}

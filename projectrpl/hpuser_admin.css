@@ -11,6 +11,32 @@ header {
     text-align: center;
 }
 
+.log-out {
+    text-align: left;
+    position: relative;  
+}
+
+header .log-out a {
+    color: #fff;
+    margin-right: 10px;
+    padding: 20px;
+    text-decoration: none;
+  }
+  
+  header .log-out a:hover {
+    background-color:#39B5E0;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  
+  header .log-out a {
+    text-decoration: none;
+    color: inherit;
+    flex-direction: column;
+    
+  }
+
 nav {
     text-align: center;
 }
@@ -55,8 +81,9 @@ form button {
 }
 
 .book {
-    display: inline-block; /* Menampilkan buku secara horizontal */
+    display: flex; /* Menampilkan buku secara horizontal */
     margin-right: 20px;
+    width: 300px;
 }
 
 .book img {
@@ -108,4 +135,8 @@ footer {
     color: #0056b3;
 }
 
-
+#bookList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
