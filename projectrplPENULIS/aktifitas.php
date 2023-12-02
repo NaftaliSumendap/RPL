@@ -22,7 +22,7 @@ $buku = query("SELECT * FROM buku");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../projectrpl/aktifitas.css" rel="stylesheet" />
+    <link href="../projectrplPENULIS/aktifitas.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <title>Library Management System</title>
@@ -47,40 +47,6 @@ $buku = query("SELECT * FROM buku");
             <li><a href="#addBook">Tambah Buku Baru</a></li>
         </ul>
     </nav>
-
-    <section id="members">
-        <h2>Manajemen Anggota</h2>
-        <!-- Tambahkan formulir atau tabel untuk manajemen anggota di sini -->
-        <form action="#" method="post">
-            <label for="memberName">Nama Anggota:</label>
-            <input type="text" id="memberName" name="memberName" required>
-
-            <label for="memberEmail">Email Anggota:</label>
-            <input type="email" id="memberEmail" name="memberEmail" required>
-
-            <button type="submit" class="tambahAnggota">Tambah Anggota</button>
-        </form>
-
-        <table>
-            <caption>Daftar Anggota</caption>
-            <thead>
-                <tr>
-                    <th>ID Anggota</th>
-                    <th>Nama Anggota</th>
-                    <th>Email</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Tabel untuk menampilkan daftar anggota akan ditambahkan di sini -->
-                <tr>
-                    <td>ID001</td>
-                    <td>Joachim Kalangi</td>
-                    <td>joachimkalangi@unsrat.com</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
 
     <section id="statistics">
         <h2>Statistik Penggunaan</h2>
@@ -167,44 +133,6 @@ $buku = query("SELECT * FROM buku");
 
             <button type="submit" name="tambahBuku" class="btn btn-primary">Tambah Buku</button>
         </form>
-    </section>
-
-    <section id="bookList">
-        <h2>Semua Buku</h2>
-        <table class="table table-bordered shadow">
-            <thead>
-                <th>#</th>
-                <th>Judul Buku</th>
-                <th>Penulis</th>
-                <th>Genre</th>
-                <th>Sinopsis</th>
-                <th>Aksi</th>
-            </thead>
-            <tbody>
-                <?php $i = 1; ?>
-                <?php foreach ($buku as $row) : ?>
-                    <tr>
-                        <td><?= $i; ?></td>
-                        <td>
-                            <img styles="align-items: center;" width="100" src="../images/<?= $row["gambar"]; ?>" alt="Book Cover">
-                            <a class="link-dark d-block text-center" href="../files/tes.html">
-                                <?= $row["namaBuku"]; ?>
-                            </a>
-                        </td>
-                        <td><?= $row["penulis"]; ?></td>
-                        <td><?= $row["genre"]; ?></td>
-                        <td>
-                            <?= $row["sinopsis"]; ?>
-                        </td>
-                        <td>
-                            <a class="btn btn-warning" href="../CRUD/update.php?id=<?= $row["idBuku"]; ?>" class="btn btn-warning">Edit</a>
-                            <a class="btn btn-danger" href="../CRUD/hapus.php?id=<?= $row["idBuku"]; ?>" onclick="return confirm('Konfirmasi?');">Delete</a>
-                        </td>
-                    </tr>
-                    <?php $i++ ?>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
     </section>
 
     <div class="footer">

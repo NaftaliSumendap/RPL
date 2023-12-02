@@ -40,13 +40,54 @@ function tambahBuku($data)
 
     $nama = $data["bookTitle"];
     $penulis = $data["bookAuthor"];
-    $genre = $data["bookGenre"];
+    $genre = $data["bookCategory"];
     $desc = $data["bookDescription"];
-    $image = $data["bookImage"];
 
-    mysqli_query($conn, "INSERT INTO buku VALUES(null, '$nama', '$penulis', '$genre', '$desc', '$image')");
+    $image = uploadBuku();
+    if (!$image) {
+        return false;
+    }
+
+    // $file = $data["bookFile"];
+
+    mysqli_query($conn, "INSERT INTO buku VALUES(null, '$nama', '$penulis', '$genre', '$desc', 0, 0, '$image')");
 
     return mysqli_affected_rows($conn);
+}
+
+function uploadBuku()
+{
+    $namaFile = $_FILES['bookImage']['name'];
+    $ukuranFile = $_FILES['bookImage']['size'];
+    $error = $_FILES['bookImage']['error'];
+    $tmpName = $_FILES['bookImage']['tmp_name'];
+
+    if ($error === 4) {
+        echo "<script>
+        alert('pilih gambar terlebih dahulu!'); 
+        </script>";
+        return false;
+    }
+
+    $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
+    $ekstensiGambar = explode('.', $namaFile);
+    $ekstensiGambar = strtolower(end($ekstensiGambar));
+    if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
+        echo "<script>
+        alert('Upload format yang benar!'); 
+        </script>";
+        return false;
+    }
+
+    if ($ukuranFile > 5000000) {
+        echo "<script>
+        alert('Ukuran gambar terlalu besar!'); 
+        </script>";
+    }
+
+    move_uploaded_file($tmpName, '../images/'.$namaFile);
+
+    return $namaFile;
 }
 
 function query($query)

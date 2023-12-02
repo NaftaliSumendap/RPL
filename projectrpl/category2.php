@@ -1,5 +1,5 @@
 <?php
-require '../functions/function_user.php';
+require '../functions/functions_admin.php';
 
 $user = query("SELECT * FROM buku WHERE genre='Kesehatan dan Kebugaran'");
 ?>
@@ -19,7 +19,7 @@ $user = query("SELECT * FROM buku WHERE genre='Kesehatan dan Kebugaran'");
         <h1>Kesehatan dan Kebugaran</h1>
         <nav>
             <ul>
-                <li><a href="hpuser.html">Beranda</a></li>
+                <li><a href="hpuser.php">Beranda</a></li>
             </ul>
         </nav>
     </header>
@@ -30,10 +30,10 @@ $user = query("SELECT * FROM buku WHERE genre='Kesehatan dan Kebugaran'");
         <?php $i = 1; ?>
         <?php foreach ($user as $row) : ?>
             <div class="book">
-                <img src="../projectrpl/images/<?php echo $row["gambar"]; ?>" alt="Book Cover">
-                <a href="dbhealth_book1.html">
+                <img src="../images/<?= $row["gambar"]; ?>" alt="Book Cover">
+                <!-- <a href="dbcomputer_book1.php"> -->
                     <h3><?php echo $row["namaBuku"]; ?></h3>
-                </a>
+                <!-- </a> -->
                 <p>Penulis: <?php echo $row["penulis"]; ?></p>
             </div>
             <?php $i++ ?>

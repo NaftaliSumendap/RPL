@@ -62,37 +62,18 @@ section {
     margin: 20px;
 }
 
-form {
-    display: flex;
+.pdf-list {
+	width: 80%;
 }
-
-form input {
-    flex: 1;
-    padding: 10px;
-    margin-right: 10px;
+.card {
+	width: 18rem;
 }
-
-form button {
-    padding: 10px;
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    cursor: pointer;
+.category .list-group {
+	width: 200px;
 }
-
-.book {
-    display: flex; /* Menampilkan buku secara horizontal */
-    margin-right: 20px;
-    width: 300px;
+.nd {
+	text-decoration: none;
 }
-
-.book img {
-    max-width: 100px; /* Ukuran gambar maksimum */
-    height: auto;
-    display: block;
-}
-
-
 
 footer {
     background-color: #3498db;
