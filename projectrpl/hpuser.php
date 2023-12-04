@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if (!isset($_SESSION["login"])) {
+  header("Location: main.php");
+  exit;
+}
+
 require '../CRUD/functions.php';
 
 $key = query("SELECT * FROM buku ORDER BY namaBuku ASC");
@@ -26,7 +33,7 @@ $populer = query("SELECT * FROM buku ORDER BY tot_pinjam DESC LIMIT 10");
       <ul>
         <li><a href="hpuser.php">Beranda</a></li>
         <li><a href="aktifitas.php">Aktifitas</a></li>
-        <li><a href="logout.php">Log Out</a></li>
+        <li><a href="logout.php" onclick="return confirm('Keluar?')">Log Out</a></li>
       </ul>
     </nav>
   </header>
@@ -43,7 +50,7 @@ $populer = query("SELECT * FROM buku ORDER BY tot_pinjam DESC LIMIT 10");
     <h2>Pencarian Buku</h2>
     <form action="../CRUD/searching.php" method="GET">
       <div class="input-group my-5">
-        <input class="form-control" type="text" placeholder="Cari Buku..." name="key" autocomplete="off" autofocus />
+        <input class="form-control" type="text" placeholder="Cari buku, penulis, kategori..." name="key" autocomplete="off" autofocus />
         <button class="input-group-textbtn btn-primary" name="cari">Cari</button>
       </div>
     </form>

@@ -1,7 +1,15 @@
 <?php
+session_start();
+
+if (!isset($_SESSION["login"])) {
+    header("Location: main.php");
+    exit;
+}
+
 require '../functions/functions_admin.php';
 
 $user = query("SELECT * FROM buku WHERE genre='Kesehatan dan Kebugaran'");
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,10 +38,10 @@ $user = query("SELECT * FROM buku WHERE genre='Kesehatan dan Kebugaran'");
         <?php $i = 1; ?>
         <?php foreach ($user as $row) : ?>
             <div class="book">
-                <img src="../images/<?= $row["gambar"]; ?>" alt="Book Cover">
-                <!-- <a href="dbcomputer_book1.php"> -->
+                <img src="../images/<?php echo $row["gambar"]; ?>" alt="Book Cover">
+                <a href="db_book.php?id=<?= $row["idBuku"]; ?>">
                     <h3><?php echo $row["namaBuku"]; ?></h3>
-                <!-- </a> -->
+                </a>
                 <p>Penulis: <?php echo $row["penulis"]; ?></p>
             </div>
             <?php $i++ ?>

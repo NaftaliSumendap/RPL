@@ -1,11 +1,27 @@
+<?php
+session_start();
+
+if (!isset($_SESSION["login"])) {
+    header("Location: main.php");
+}
+
+require '../functions/functions.php';
+
+$tampil = mysqli_query($conn, "SELECT * FROM regist WHERE id='$_SESSION[id]'");
+
+$usr = mysqli_fetch_array($tampil);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylespp.css">
-    <title>Profil Anggota - [Nama Anggota]</title>
+    <title>Profil Anggota - <?= $usr["nama"] ?></title>
 </head>
+
 <body>
     <header>
         <h1>Profil Anggota</h1>
@@ -19,10 +35,10 @@
     <section id="personalInfo">
         <h2>Informasi Pribadi</h2>
         <div class="profileDetails">
-            <img src="profile_picture.jpg" alt="Foto Profil">
+            <img src="../PP/<?= $usr["image"]; ?>" alt="Profile Picture">
             <div>
-                <h3>Nama Anggota</h3>
-                <p>Email: email@example.com</p>
+                <h3><?= $usr["nama"] ?></h3>
+                <p>Email: <?= $usr["email"] ?></p>
                 <!-- Informasi pribadi lainnya -->
             </div>
         </div>
@@ -52,7 +68,7 @@
 
     <section id="accountSettings">
         <h2>Pengaturan Akun</h2>
-        <a href="kelola_akun.html"><button class="manageAccountButton">Kelola Akun</button></a>
+        <a href="kelola_akun.php"><button class="manageAccountButton">Kelola Akun</button></a>
         <a href="pengaturan_preferensi.html"><button class="preferencesButton">Pengaturan Preferensi</button></a>
     </section>
 
@@ -60,4 +76,5 @@
         <p>&copy; 2023 Perpustakaan Digital. All rights reserved.</p>
     </footer>
 </body>
+
 </html>

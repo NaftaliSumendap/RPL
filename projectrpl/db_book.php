@@ -1,8 +1,9 @@
 <?php
 require '../functions/functions_admin.php';
 
-$user = query("SELECT * FROM buku WHERE genre='Hobi dan Keterampilan'");
+$id = $_GET["id"];
 
+$result = query("SELECT * FROM buku WHERE idBuku='$id'");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,19 +26,19 @@ $user = query("SELECT * FROM buku WHERE genre='Hobi dan Keterampilan'");
     </header>
 
     <section id="bookDetails">
-        <div class="bookCover">
-            <img src="computer_book1.jpg" alt="Book Cover">
-        </div>
-        <div class="bookInfo">
-            <?php foreach ($user as $row) : ?>
+        <?php foreach ($result as $row) : ?>
+            <div class="bookCover">
+                <img src="../images/<?php echo $row["gambar"]; ?>" alt="Book Cover">
+            </div>
+            <div class="bookInfo">
                 <h2><?php echo $row["namaBuku"]; ?></h2>
                 <p>Penulis: <?php echo $row["penulis"]; ?></p>
-                <p>Sinopsis: Lorem ipsum dolor sit amet, consectetur adipiscing elit. ...</p>
+                <p>Sinopsis: <?php echo $row["sinopsis"]; ?></p>
                 <!-- Informasi lainnya tentang buku -->
                 <button class="borrowButton">Pinjam</button>
                 <!-- Gantilah "Pinjam" dengan "Beli" jika lebih sesuai -->
             <?php endforeach; ?>
-        </div>
+            </div>
     </section>
 
     <section id="reviews">

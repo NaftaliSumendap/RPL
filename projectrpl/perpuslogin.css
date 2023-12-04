@@ -6,7 +6,8 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f4f4f4;
+    /* background-color: #f4f4f4; */
+    background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Ftheconversation.com%2Flima-buku-yang-wajib-anda-baca-pada-usia-20-an-untuk-memahami-tantangan-sosio-politik-generasi-muda-indonesia-183222&psig=AOvVaw31a2h0WIcNfTOBRYVEljjS&ust=1701748368628000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCIi4u-vw9IIDFQAAAAAdAAAAABAE');
 }
 
 .container {

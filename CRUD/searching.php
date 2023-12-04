@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if (!isset($_SESSION["login"])) {
+    header("Location: ../projectrpl/main.php");
+    exit;
+}
+
 include 'functions.php';
 
 $hasil = $_GET['key'];
@@ -22,8 +29,17 @@ $key = cari($_GET["key"]);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../projectrpl/aktifitas.css">
 
 </head>
+<header>
+    <h1>Perpustakaan Digital</h1>
+    <nav>
+        <ul>
+            <li><a href="../projectrpl/hpuser.php">Beranda</a></li>
+        </ul>
+    </nav>
+</header>
 
 <body>
     <div class="container">
@@ -63,8 +79,8 @@ $key = cari($_GET["key"]);
                                 <a href="../images/<?= $book['gambar'] ?>" class="btn btn-primary" download="<?= $book['namaBuku'] ?>">Download</a>
                             </div>
                         </div>
-                        <?php endforeach; ?>
-                        <?php $i++ ?>
+                    <?php endforeach; ?>
+                    <?php $i++ ?>
                 </div>
                 <?php if ($i % 3 == 0) ?>
                 <?php $i++ ?>

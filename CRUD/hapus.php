@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if (!isset($_SESSION["login"])) {
+    header("Location: ../projectrpl/main.php");
+    exit;
+}
+
 require '../CRUD/functions.php';
 $id = $_GET["id"];
 

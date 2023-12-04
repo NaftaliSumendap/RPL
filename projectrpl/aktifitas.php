@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if (!isset($_SESSION["login"])) {
+    header("Location: main.php");
+    exit;
+}
+
 require '../functions/functions_admin.php';
 
 if (isset($_POST["tambahBuku"])) {
@@ -34,7 +41,7 @@ $buku = query("SELECT * FROM buku");
         <nav>
             <ul>
                 <li><a href="hpuser.php">Beranda</a></li>
-                <li><a href="profil_anggota.html">Profil</a></li>
+                <li><a href="profil_anggota.php">Profil</a></li>
                 <li><a href="aktifitas.php">Aktifitas</a></li>
             </ul>
         </nav>
@@ -151,7 +158,7 @@ $buku = query("SELECT * FROM buku");
             </div>
 
             <div class="mb-3">
-                <label for="bookDescription" class="form-label">Sinopsi:</label>
+                <label for="bookDescription" class="form-label">Sinopsis:</label>
                 <textarea id="bookDescription" name="bookDescription" class="form-control" required></textarea>
             </div>
 
