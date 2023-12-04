@@ -22,6 +22,10 @@ if (isset($_POST["tambahBuku"])) {
 
 $buku = query("SELECT * FROM buku");
 
+$user = query("SELECT * FROM regist");
+
+$bulan = query("SELECT bulan FROM penjualan WHERE tahun=2023")
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,70 +61,49 @@ $buku = query("SELECT * FROM buku");
 
     <section id="members">
         <h2>Manajemen Anggota</h2>
-        <!-- Tambahkan formulir atau tabel untuk manajemen anggota di sini -->
-        <form action="#" method="post">
-            <label for="memberName">Nama Anggota:</label>
-            <input type="text" id="memberName" name="memberName" required>
-
-            <label for="memberEmail">Email Anggota:</label>
-            <input type="email" id="memberEmail" name="memberEmail" required>
-
-            <button type="submit" class="tambahAnggota">Tambah Anggota</button>
-        </form>
-
-        <table>
-            <caption>Daftar Anggota</caption>
+        <table class="table table-bordered shadow">
             <thead>
-                <tr>
-                    <th>ID Anggota</th>
-                    <th>Nama Anggota</th>
-                    <th>Email</th>
-                    <th>Aksi</th>
-                </tr>
+                <th>ID Anggota</th>
+                <th>Nama Anggota</th>
+                <th>Email</th>
+                <th>Total Buku Dipinjam</th>
             </thead>
             <tbody>
-                <!-- Tabel untuk menampilkan daftar anggota akan ditambahkan di sini -->
-                <tr>
-                    <td>ID001</td>
-                    <td>Joachim Kalangi</td>
-                    <td>joachimkalangi@unsrat.com</td>
-                </tr>
+                <?php $i = 1; ?>
+                <?php foreach ($user as $row) : ?>
+                    <tr>
+                        <td><?= $row["id"]; ?></td>
+                        <td><?= $row["nama"]; ?></td>
+                        <td><?= $row["email"]; ?></td>
+                        <td>0</td>
+                        <?php $i++ ?>
+                    <?php endforeach; ?>
             </tbody>
         </table>
     </section>
 
     <section id="statistics">
         <h2>Statistik Penggunaan</h2>
-        <p>Total Buku Dipinjam: 30</p>
-        <p>Rata-rata Rating: 4.2</p>
+        <p>Total Buku Dipinjam: <?php echo count_total_book() ?></p>
+        <p>Rata-rata Rating: -</p>
 
         <!-- Tabel Dummy Statistik -->
-        <table>
-            <caption>Statistik Penggunaan Buku</caption>
+        <table class="table table-bordered shadow">
+            <caption>Statistik Penggunaan</caption>
             <thead>
-                <tr>
-                    <th>Bulan</th>
-                    <th>Jumlah Dipinjam</th>
-                    <th>Rata-rata Rating</th>
-                </tr>
+                <th>Bulan</th>
+                <th>Jumlah Dipinjam</th>
+                <th>Rata-rata Rating</th> 
             </thead>
             <tbody>
-                <tr>
-                    <td>Januari</td>
-                    <td>10</td>
-                    <td>4.5</td>
-                </tr>
-                <tr>
-                    <td>Februari</td>
-                    <td>8</td>
-                    <td>3.8</td>
-                </tr>
-                <tr>
-                    <td>Maret</td>
-                    <td>12</td>
-                    <td>4.0</td>
-                </tr>
-                <!-- Tambahkan baris statistik tambahan di sini -->
+                <?php $i = 1; ?>
+                <?php foreach ($bulan as $row) : ?>
+                    <tr>
+                        <td><?= $row["bulan"] ?></td>
+                        <td><?php count_total_book_month($i) ?></td>
+                        <td>0</td>
+                        <?php $i++ ?>
+                    <?php endforeach; ?>
             </tbody>
         </table>
     </section>

@@ -106,7 +106,7 @@ function update()
         </script>";
     }
 
-    move_uploaded_file($tmpName, '../PP/'. $namaFile);
+    move_uploaded_file($tmpName, '../PP/' . $namaFile);
 
     return $namaFile;
 }
@@ -167,4 +167,30 @@ function cari($keyword)
     ";
 
     return query($query);
+}
+
+function count_total_book()
+{
+    $total = 0;
+
+    $result = query("SELECT SUM(total_penjualan) AS total FROM penjualan");
+
+    foreach ($result as $row) {
+        $total = $row["total"];
+    }
+
+    return $total;
+}
+
+function count_total_book_month($bulan)
+{
+    $total = 0;
+
+    $result = query("SELECT SUM(total_penjualan) AS total FROM penjualan WHERE bulan='$bulan'");
+
+    foreach ($result as $row) {
+        $total = $row["total"];
+    }
+
+    return $total;
 }
