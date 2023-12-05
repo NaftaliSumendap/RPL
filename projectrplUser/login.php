@@ -1,7 +1,13 @@
 <?php
+session_start();
+
+if (isset($_SESSION["Login"])) {
+    header("Location: hpuser.php");
+}
+
 require '../functions/functions.php';
 
-if (isset($_POST["login"])) {
+if (isset($_POST["Login"])) {
 
     $nama = $_POST["username"];
     $password = $_POST["password"];
@@ -11,6 +17,8 @@ if (isset($_POST["login"])) {
     if (mysqli_num_rows($result) === 1) {
         $row = mysqli_fetch_assoc($result);
         if (password_verify($password, $row["password"])) {
+            $_SESSION["Login"] = true;
+            $_SESSION["id"] = $row["id"];
             header("Location: hpuser.php");
             exit;
         }
@@ -46,11 +54,11 @@ if (isset($_POST["login"])) {
             <label for="password" class="form-label">Password:</label>
             <input type="password" id="password" name="password" class="form-control" required>
 
-            <button type="submit" name="login" class="btn btn-primary">Login</button>
+            <button type="submit" name="Login" class="btn btn-primary">Login</button>
         </form>
 
         <div class="register-link">
-            Belum punya akun? <a href="../projectrpluser/register.php">Daftar disini</a>
+            Belum punya akun? <a href="../projectrplUser/register.php">Daftar disini</a>
         </div>
     </div>
 </body>

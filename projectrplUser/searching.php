@@ -1,12 +1,12 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["login"])) {
+if (!isset($_SESSION["Login"])) {
     header("Location: ../projectrpl/main.php");
     exit;
 }
 
-include 'functions.php';
+include '../functions/functions.php';
 
 $hasil = $_GET['key'];
 
@@ -29,7 +29,7 @@ $categories = query("SELECT * FROM category");
     <!-- bootstrap 5 Js bundle CDN-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../CRUD/styles.css">
     <link rel="stylesheet" href="../projectrpl/aktifitas.css">
 
 </head>
@@ -37,7 +37,7 @@ $categories = query("SELECT * FROM category");
     <h1>Perpustakaan Digital</h1>
     <nav>
         <ul>
-            <li>Hasil Pencarian</li>
+            <li><a href="hpuser.php">Kembali</a></li>
         </ul>
     </nav>
 </header>

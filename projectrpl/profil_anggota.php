@@ -3,6 +3,7 @@ session_start();
 
 if (!isset($_SESSION["login"])) {
     header("Location: login.php");
+    exit;
 }
 
 require '../functions/functions.php';
@@ -69,7 +70,6 @@ $usr = mysqli_fetch_array($tampil);
     <section id="accountSettings">
         <h2>Pengaturan Akun</h2>
         <a href="kelola_akun.php"><button class="manageAccountButton">Kelola Akun</button></a>
-        <a href="pengaturan_preferensi.html"><button class="preferencesButton">Pengaturan Preferensi</button></a>
     </section>
 
     <footer>

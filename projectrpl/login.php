@@ -5,7 +5,7 @@ if (isset($_SESSION["login"])) {
     header("Location: hpuser.php");
 }
 
-require '../functions/functions.php';
+require '../functions/functions_admin.php';
 
 if (isset($_POST["login"])) {
 
@@ -18,7 +18,7 @@ if (isset($_POST["login"])) {
         $row = mysqli_fetch_assoc($result);
         if (password_verify($password, $row["password"])) {
             $_SESSION["login"] = true;
-            $_SESSION["id"] =$row["id"];
+            $_SESSION["id"] = $row["id"];
             header("Location: hpuser.php");
             exit;
         }

@@ -3,6 +3,7 @@ session_start();
 
 if (!isset($_SESSION["login"])) {
     header("Location: login.php");
+    exit;
 }
 
 require '../functions/functions_admin.php';
@@ -88,7 +89,7 @@ if (isset($_POST["addCate"])) {
                             <td><?= $row["id"]; ?></td>
                             <td><?= $row["nama"]; ?></td>
                             <td><?= $row["email"]; ?></td>
-                            <td>0</td>
+                            <td><?= $row["tot_pinjam"] ?></td>
                             <?php $i++ ?>
                         <?php endforeach; ?>
                 </tbody>
@@ -98,7 +99,7 @@ if (isset($_POST["addCate"])) {
         <section id="statistics">
             <h2>Statistik Penggunaan</h2>
             <p>Total Buku Dipinjam: <?php echo count_total_book() ?></p>
-            <p>Rata-rata Rating: -</p>
+            <p>Rata-rata Rating: <?php echo avgRating() ?>/5 </p>
 
             <!-- Tabel Dummy Statistik -->
             <table class="table table-bordered shadow">
@@ -185,7 +186,7 @@ if (isset($_POST["addCate"])) {
                             <td><?= $i; ?></td>
                             <td>
                                 <img styles="align-items: center;" width="100" src="../images/<?= $row["gambar"]; ?>" alt="Book Cover">
-                                <a class="link-dark d-block text-center" href="../files/tes.html">
+                                <a class="link-dark d-block text-center" href="db_book.php?id=<?= $row["idBuku"]; ?>">
                                     <?= $row["namaBuku"]; ?>
                                 </a>
                             </td>

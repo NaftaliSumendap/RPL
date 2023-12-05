@@ -54,7 +54,7 @@ function tambahBuku($data)
         return false;
     }
 
-    mysqli_query($conn, "INSERT INTO buku VALUES(null, '$nama', '$penulis', '$genre', '$desc', 0, 0, '$image', '$file')");
+    mysqli_query($conn, "INSERT INTO buku VALUES(null, '$nama', '$penulis', '$genre', '$desc', 0, '$image', '$file')");
 
     return mysqli_affected_rows($conn);
 }
@@ -204,7 +204,7 @@ function count_total_book()
 {
     $total = 0;
 
-    $result = query("SELECT SUM(total_penjualan) AS total FROM penjualan");
+    $result = query("SELECT SUM(tot_pinjam) AS total FROM data_user");
 
     foreach ($result as $row) {
         $total = $row["total"];
@@ -234,4 +234,16 @@ function addCate($data)
     mysqli_query($conn, "INSERT INTO category VALUES(null, '$cate')");
 
     return mysqli_affected_rows($conn);
+}
+
+function avgRating() {
+    $total = 0;
+
+    $result = query("SELECT AVG(rating) AS total FROM review");
+
+    foreach ($result as $row) {
+        $total = $row["total"];
+    }
+
+    return floatval($total);
 }

@@ -1,5 +1,5 @@
 <?php
-require '../functions/function_user.php';
+require '../functions/functions.php';
 
 if (isset($_POST["daftar"])) {
     if (registrasi($_POST) > 0) {

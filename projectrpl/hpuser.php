@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION["login"])) {
-  header("Location: main.php");
+  header("Location: login.php");
   exit;
 }
 
@@ -96,7 +96,7 @@ $categories = query("SELECT * FROM category");
                   </p>
                   <a href="../files/<?= $book['file'] ?>" class="btn btn-success">Open</a>
 
-                  <a href="../images/<?= $book['gambar'] ?>" class="btn btn-primary" download="<?= $book['namaBuku'] ?>">Download</a>
+                  <a href="../files/<?= $book['file'] ?>" class="btn btn-primary" download="<?= $book['namaBuku'] ?>">Download</a>
                 </div>
               </div>
             <?php } ?>

@@ -107,7 +107,6 @@ function cari($key)
 
     $query = "SELECT * FROM buku 
     WHERE namaBuku LIKE '$key'
-    OR genre LIKE '$key'
     OR penulis LIKE '$key'";
 
     return query($query);
