@@ -117,7 +117,7 @@ $buku = query("SELECT * FROM buku");
             </div>
 
             <div class="mb-3">
-                <label for="bookDescription" class="form-label">Sinopsi:</label>
+                <label for="bookDescription" class="form-label">Sinopsis:</label>
                 <textarea id="bookDescription" name="bookDescription" class="form-control" required></textarea>
             </div>
 

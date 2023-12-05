@@ -17,33 +17,57 @@ function ubah($data)
     $penulis = htmlspecialchars($data["bookAuthor"]);
     $genre = htmlspecialchars($data["bookCategory"]);
     $desc = htmlspecialchars($data["bookDescription"]);
-    $image = htmlspecialchars($data["bookImage"]);
-    $file = htmlspecialchars($data["bookFile"]);
+    $image = $data["bookImage"];
+    $file = $data["bookFile"];
 
     $image = uploadBuku();
     if (!$image) {
         return false;
     }
 
-    $query = "UPDATE buku SET namaBuku = '$nama', penulis = '$penulis', genre = '$genre', 
-    sinopsis = '$desc', gambar = '$image' WHERE idBuku = $id";
+    $file = uploadFile();
+    if (!$file){
+        return false;
+    }
+
+    $query = "UPDATE buku SET namaBuku = '$nama', penulis = '$penulis', id_category = '$genre', 
+    sinopsis = '$desc', gambar = '$image', file = '$file' WHERE idBuku = $id";
     mysqli_query($conn, $query);
     return mysqli_affected_rows($conn);
+}
+
+function uploadFile()
+{
+    $namaFile = $_FILES['bookFile']['name'];
+    $ukuranFile = $_FILES['bookFile']['size'];
+    $tmpName = $_FILES['bookFile']['tmp_name'];
+
+    $ekstensiGambarValid = ['txt', 'pdf', 'html'];
+    $ekstensiGambar = explode('.', $namaFile);
+    $ekstensiGambar = strtolower(end($ekstensiGambar));
+    if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
+        echo "<script>
+        alert('Upload format yang benar!'); 
+        </script>";
+        return false;
+    }
+
+    if ($ukuranFile > 5000000) {
+        echo "<script>
+        alert('Ukuran gambar terlalu besar!'); 
+        </script>";
+    }
+
+    move_uploaded_file($tmpName, '../files/' . $namaFile);
+
+    return $namaFile;
 }
 
 function uploadBuku()
 {
     $namaFile = $_FILES['bookImage']['name'];
     $ukuranFile = $_FILES['bookImage']['size'];
-    $error = $_FILES['bookImage']['error'];
     $tmpName = $_FILES['bookImage']['tmp_name'];
-
-    if ($error === 4) {
-        echo "<script>
-        alert('pilih gambar terlebih dahulu!'); 
-        </script>";
-        return false;
-    }
 
     $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
     $ekstensiGambar = explode('.', $namaFile);
@@ -61,7 +85,7 @@ function uploadBuku()
         </script>";
     }
 
-    move_uploaded_file($tmpName, '../images/'.$namaFile);
+    move_uploaded_file($tmpName, '../images/' . $namaFile);
 
     return $namaFile;
 }

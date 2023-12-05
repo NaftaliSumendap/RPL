@@ -2,8 +2,7 @@
 session_start();
 
 if (!isset($_SESSION["login"])) {
-  header("Location: main.php");
-  exit;
+    header("Location: login.php");
 }
 
 require '../functions/functions_admin.php';

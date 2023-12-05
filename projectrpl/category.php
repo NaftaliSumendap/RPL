@@ -2,13 +2,17 @@
 session_start();
 
 if (!isset($_SESSION["login"])) {
-    header("Location: main.php");
-    exit;
+    header("Location: login.php");
 }
-
 require '../functions/functions_admin.php';
 
-$user = query("SELECT * FROM buku WHERE genre='Kesehatan dan Kebugaran'");
+$idCate = $_GET["id_category"];
+
+$user = query("SELECT * FROM buku WHERE id_category=$idCate");
+
+$tampil = mysqli_query($conn, "SELECT * FROM category WHERE id_category='$_GET[id_category]'");
+
+$usr = mysqli_fetch_array($tampil);
 
 ?>
 <!DOCTYPE html>
@@ -17,14 +21,13 @@ $user = query("SELECT * FROM buku WHERE genre='Kesehatan dan Kebugaran'");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="category1.css">
-    <link rel="stylesheet" href="category1(2).css">
-    <title>Kesehatan dan Kebugaran</title>
+    <link rel="stylesheet" href="category.css">
+    <title>Ilmu Komputer dan Teknologi</title>
 </head>
 
 <body>
     <header>
-        <h1>Kesehatan dan Kebugaran</h1>
+            <h1><?= $usr["category"] ?></h1>
         <nav>
             <ul>
                 <li><a href="hpuser.php">Beranda</a></li>
@@ -42,7 +45,7 @@ $user = query("SELECT * FROM buku WHERE genre='Kesehatan dan Kebugaran'");
                 <a href="db_book.php?id=<?= $row["idBuku"]; ?>">
                     <h3><?php echo $row["namaBuku"]; ?></h3>
                 </a>
-                <p>Penulis: <?php echo $row["penulis"]; ?></p>
+                <p><i><b>Penulis: <?php echo $row["penulis"]; ?></i></b></p>
             </div>
             <?php $i++ ?>
         <?php endforeach; ?>
@@ -51,7 +54,7 @@ $user = query("SELECT * FROM buku WHERE genre='Kesehatan dan Kebugaran'");
     <?php $i++; ?>
 
     <footer>
-        <p>&copy; 2023 Kesehatan dan Kebugaran. All rights reserved.</p>
+        <p>&copy; 2023 <?= $usr["category"] ?>. All rights reserved.</p>
     </footer>
 </body>
 

@@ -12,6 +12,8 @@ $key = query("SELECT * FROM buku ORDER BY namaBuku ASC");
 
 $populer = query("SELECT * FROM buku ORDER BY tot_pinjam DESC LIMIT 10");
 
+$categories = query("SELECT * FROM category");
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -85,9 +87,14 @@ $populer = query("SELECT * FROM buku ORDER BY tot_pinjam DESC LIMIT 10");
                     <?= $book['sinopsis'] ?>
                     <br><i><b>Category:
                         <br></b></i>
-                    <?= $book['genre'] ?>
+                    <?php foreach ($categories as $category) { ?>
+                      <?php if ($category['id_category'] == $book['id_category']) { ?>
+                        <?php echo $category['category']; ?>
+                        <?php break; ?>
+                      <?php } ?>
+                    <?php } ?>
                   </p>
-                  <a href="../images/<?= $book['gambar'] ?>" class="btn btn-success">Open</a>
+                  <a href="../files/<?= $book['file'] ?>" class="btn btn-success">Open</a>
 
                   <a href="../images/<?= $book['gambar'] ?>" class="btn btn-primary" download="<?= $book['namaBuku'] ?>">Download</a>
                 </div>
@@ -128,11 +135,16 @@ $populer = query("SELECT * FROM buku ORDER BY tot_pinjam DESC LIMIT 10");
                 <?= $book['sinopsis'] ?>
                 <br><i><b>Category:
                     <br></b></i>
-                <?= $book['genre'] ?>
+                <?php foreach ($categories as $category) { ?>
+                  <?php if ($category['id_category'] == $book['id_category']) { ?>
+                    <?php echo $category['category']; ?>
+                    <?php break; ?>
+                  <?php } ?>
+                <?php } ?>
               </p>
-              <a href="../images/<?= $book['gambar'] ?>" class="btn btn-success">Open</a>
+              <a href="../files/<?= $book['file'] ?>" class="btn btn-success">Open</a>
 
-              <a href="../images/<?= $book['gambar'] ?>" class="btn btn-primary" download="<?= $book['namaBuku'] ?>">Download</a>
+              <a href="../files/<?= $book['file'] ?>" class="btn btn-primary" download="<?= $book['namaBuku'] ?>">Download</a>
             </div>
           </div>
         <?php endforeach; ?>
@@ -148,10 +160,11 @@ $populer = query("SELECT * FROM buku ORDER BY tot_pinjam DESC LIMIT 10");
     <h2>Kategori Buku</h2>
     <!-- Navigasi atau kategori buku dapat ditampilkan di sini -->
     <ul>
-      <li><a href="category1.php">Ilmu Komputer dan Teknologi</a></li>
-      <li><a href="category2.php">Kesehatan dan Kebugaran</a></li>
-      <li><a href="category3.php">Hobi dan Keterampilan</a></li>
-      <!-- Tambahkan lebih banyak kategori sesuai kebutuhan -->
+      <?php $i = 1; ?>
+      <?php foreach ($categories as $category) : ?>
+        <li><a href="category.php?id_category=<?= $category["id_category"]; ?>"><?= $category["category"]; ?></a></li>
+      <?php endforeach; ?>
+      <?php $i++ ?>
     </ul>
   </section>
   </div>

@@ -42,17 +42,48 @@ function tambahBuku($data)
     $penulis = $data["bookAuthor"];
     $genre = $data["bookCategory"];
     $desc = $data["bookDescription"];
+    $file = $data["bookFile"];
 
     $image = uploadBuku();
     if (!$image) {
         return false;
     }
 
-    // $file = $data["bookFile"];
+    $file = uploadFile();
+    if (!$file) {
+        return false;
+    }
 
-    mysqli_query($conn, "INSERT INTO buku VALUES(null, '$nama', '$penulis', '$genre', '$desc', 0, 0, '$image')");
+    mysqli_query($conn, "INSERT INTO buku VALUES(null, '$nama', '$penulis', '$genre', '$desc', 0, 0, '$image', '$file')");
 
     return mysqli_affected_rows($conn);
+}
+
+function uploadFile()
+{
+    $namaFile = $_FILES['bookFile']['name'];
+    $ukuranFile = $_FILES['bookFile']['size'];
+    $tmpName = $_FILES['bookFile']['tmp_name'];
+
+    $ekstensiGambarValid = ['txt', 'pdf', 'html'];
+    $ekstensiGambar = explode('.', $namaFile);
+    $ekstensiGambar = strtolower(end($ekstensiGambar));
+    if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
+        echo "<script>
+        alert('Upload format yang benar!'); 
+        </script>";
+        return false;
+    }
+
+    if ($ukuranFile > 5000000) {
+        echo "<script>
+        alert('Ukuran gambar terlalu besar!'); 
+        </script>";
+    }
+
+    move_uploaded_file($tmpName, '../files/'. $namaFile);
+
+    return $namaFile;
 }
 
 function updateUser($data)
@@ -193,4 +224,14 @@ function count_total_book_month($bulan)
     }
 
     return $total;
+}
+
+function addCate($data)
+{
+
+    global $conn;
+    $cate = $data["category_name"];
+    mysqli_query($conn, "INSERT INTO category VALUES(null, '$cate')");
+
+    return mysqli_affected_rows($conn);
 }

@@ -1,9 +1,18 @@
 <?php
+session_start();
+
+if (!isset($_SESSION["login"])) {
+    header("Location: login.php");
+}
 require '../functions/functions_admin.php';
 
 $id = $_GET["id"];
 
 $result = query("SELECT * FROM buku WHERE idBuku='$id'");
+
+$tampil = mysqli_query($conn, "SELECT * FROM buku WHERE idBuku='$_GET[id]'");
+
+$book = mysqli_fetch_array($tampil);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,12 +21,12 @@ $result = query("SELECT * FROM buku WHERE idBuku='$id'");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="detailbuku.css">
-    <title>Detail Buku - [Judul Buku]</title>
+    <title>Detail Buku - <?= $book["namaBuku"]; ?></title>
 </head>
 
 <body>
     <header>
-        <h1>Detail Buku</h1>
+        <h1>Detail Buku <?= $book["namaBuku"]; ?></h1>
         <nav>
             <ul>
                 <li><a href="hpuser.php">Beranda</a></li>
@@ -35,7 +44,6 @@ $result = query("SELECT * FROM buku WHERE idBuku='$id'");
                 <p>Penulis: <?php echo $row["penulis"]; ?></p>
                 <p>Sinopsis: <?php echo $row["sinopsis"]; ?></p>
                 <!-- Informasi lainnya tentang buku -->
-                <button class="borrowButton">Pinjam</button>
                 <!-- Gantilah "Pinjam" dengan "Beli" jika lebih sesuai -->
             <?php endforeach; ?>
             </div>
