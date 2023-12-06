@@ -19,6 +19,8 @@ $book = mysqli_fetch_array($tampil);
 $writers = query("SELECT * FROM data_penulis");
 
 $review = query("SELECT * FROM review WHERE id_buku=$id");
+
+$users = query("SELECT * FROM data_user");
 ?>
 <!DOCTYPE html>
 <html lang="en">
