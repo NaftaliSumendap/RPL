@@ -10,9 +10,11 @@ require '../CRUD/functions.php';
 
 $key = query("SELECT * FROM buku ORDER BY namaBuku ASC");
 
-$populer = query("SELECT * FROM buku ORDER BY tot_pinjam DESC LIMIT 10");
+$populer = query("SELECT * FROM buku ORDER BY tot_pinjam DESC LIMIT 6");
 
 $categories = query("SELECT * FROM category");
+
+$writers = query("SELECT * FROM data_penulis")
 
 ?>
 <!DOCTYPE html>
@@ -52,7 +54,7 @@ $categories = query("SELECT * FROM category");
     <h2>Pencarian Buku</h2>
     <form action="../CRUD/searching.php" method="GET">
       <div class="input-group my-5">
-        <input class="form-control" type="text" placeholder="Cari buku, penulis, kategori..." name="key" autocomplete="off" autofocus />
+        <input class="form-control" type="text" placeholder="Cari buku..." name="key" autocomplete="off" autofocus />
         <button class="input-group-textbtn btn-primary" name="cari">Cari</button>
       </div>
     </form>
@@ -82,7 +84,13 @@ $categories = query("SELECT * FROM category");
                     <?= $book['namaBuku'] ?>
                   </h5>
                   <p class="card-text">
-                    <i><b>Penulis: <?= $book['penulis'] ?>
+                    <i><b>Penulis:
+                        <?php foreach ($writers as $writer) { ?>
+                          <?php if ($writer['id'] == $book['id_penulis']) { ?>
+                            <?php echo $writer['nama']; ?>
+                            <?php break; ?>
+                          <?php } ?>
+                        <?php } ?>
                         <br></b></i>
                     <?= $book['sinopsis'] ?>
                     <br><i><b>Category:
@@ -130,8 +138,15 @@ $categories = query("SELECT * FROM category");
                 <?= $book['namaBuku'] ?>
               </h5>
               <p class="card-text">
-                <i><b>Penulis: <?= $book['penulis'] ?>
+                <i><b>Penulis:
+                    <?php foreach ($writers as $writer) { ?>
+                      <?php if ($writer['id'] == $book['id_penulis']) { ?>
+                        <?php echo $writer['nama']; ?>
+                        <?php break; ?>
+                      <?php } ?>
+                    <?php } ?>
                     <br></b></i>
+                <br></b></i>
                 <?= $book['sinopsis'] ?>
                 <br><i><b>Category:
                     <br></b></i>
@@ -167,6 +182,9 @@ $categories = query("SELECT * FROM category");
       <?php $i++ ?>
     </ul>
   </section>
+  </div>
+  <div class="footer">
+    <p>&copy; 2023 Library Management System. All rights reserved.</p>
   </div>
 </body>
 

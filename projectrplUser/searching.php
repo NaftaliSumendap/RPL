@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION["Login"])) {
-    header("Location: ../projectrpl/main.php");
+    header("Location: login.php");
     exit;
 }
 
@@ -14,6 +14,7 @@ $key = cari($_GET["key"]);
 
 $categories = query("SELECT * FROM category");
 
+$writers = query("SELECT * FROM data_penulis");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,7 +69,13 @@ $categories = query("SELECT * FROM category");
                                     <?= $book['namaBuku'] ?>
                                 </h5>
                                 <p class="card-text">
-                                    <i><b>Penulis: <?= $book['penulis'] ?>
+                                    <i><b>Penulis:
+                                            <?php foreach ($writers as $writer) { ?>
+                                                <?php if ($writer['id'] == $book['id_penulis']) { ?>
+                                                    <?php echo $writer['nama']; ?>
+                                                    <?php break; ?>
+                                                <?php } ?>
+                                            <?php } ?>
                                             <br></b></i>
                                     <?= $book['sinopsis'] ?>
                                     <br><i><b>Category:
@@ -80,9 +87,9 @@ $categories = query("SELECT * FROM category");
                                         <?php } ?>
                                     <?php } ?>
                                 </p>
-                                <a href="../images/<?= $book['gambar'] ?>" class="btn btn-success">Open</a>
+                                <a href="db_book.php?id=<?= $book["idBuku"]; ?>" class="btn btn-primary" n\>Lihat</a>
 
-                                <a href="../images/<?= $book['gambar'] ?>" class="btn btn-primary" download="<?= $book['namaBuku'] ?>">Download</a>
+                                <a href="pinjam.php?id=<?= $usr["id"] ?>&idBuku=<?= $book['idBuku'] ?>" class="btn btn-success" onclick="return confirm('Yakin Meminjam? Peminjaman ini akan mengurangi jatah pinjam Anda!')">Pinjam</a>
                             </div>
                         </div>
                     <?php endforeach; ?>

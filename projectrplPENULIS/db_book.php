@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["Login"])) {
+if (!isset($_SESSION["LOGIN"])) {
     header("Location: login.php");
     exit;
 }
@@ -18,9 +18,9 @@ $book = mysqli_fetch_array($tampil);
 
 $review = query("SELECT * FROM review WHERE id_buku=$id");
 
-$users = query("SELECT * FROM data_user");
-
 $writers = query("SELECT * FROM data_penulis");
+
+$users = query("SELECT * FROM data_user");
 ?>
 <!DOCTYPE html>
 <html lang="en">

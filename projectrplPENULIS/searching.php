@@ -1,12 +1,12 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["login"])) {
-    header("Location: ../projectrpl/login.php");
+if (!isset($_SESSION["LOGIN"])) {
+    header("Location: login.php");
     exit;
 }
 
-include 'functions.php';
+include '../functions/functions.php';
 
 $hasil = $_GET['key'];
 
@@ -15,7 +15,6 @@ $key = cari($_GET["key"]);
 $categories = query("SELECT * FROM category");
 
 $writers = query("SELECT * FROM data_penulis");
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +30,7 @@ $writers = query("SELECT * FROM data_penulis");
     <!-- bootstrap 5 Js bundle CDN-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../CRUD/styles.css">
     <link rel="stylesheet" href="../projectrpl/aktifitas.css">
 
 </head>
@@ -39,7 +38,7 @@ $writers = query("SELECT * FROM data_penulis");
     <h1>Perpustakaan Digital</h1>
     <nav>
         <ul>
-            <li><a href="../projectrpl/hpuser.php">Kembali</a></li>
+            <li><a href="hpuser.php">Kembali</a></li>
         </ul>
     </nav>
 </header>
@@ -88,9 +87,9 @@ $writers = query("SELECT * FROM data_penulis");
                                         <?php } ?>
                                     <?php } ?>
                                 </p>
-                                <a href="../images/<?= $book['gambar'] ?>" class="btn btn-success">Open</a>
+                                <a href="db_book.php?id=<?= $book["idBuku"]; ?>" class="btn btn-primary" n\>Lihat</a>
 
-                                <a href="../images/<?= $book['gambar'] ?>" class="btn btn-primary" download="<?= $book['namaBuku'] ?>">Download</a>
+                                <a href="pinjam.php?id=<?= $usr["id"] ?>&idBuku=<?= $book['idBuku'] ?>" class="btn btn-success" onclick="return confirm('Yakin Meminjam? Peminjaman ini akan mengurangi jatah pinjam Anda!')">Pinjam</a>
                             </div>
                         </div>
                     <?php endforeach; ?>

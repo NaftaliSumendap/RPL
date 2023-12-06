@@ -14,7 +14,7 @@ function ubah($data)
     global $conn;
     $id = $data["id"];
     $nama = htmlspecialchars($data["bookTitle"]);
-    $penulis = htmlspecialchars($data["bookAuthor"]);
+    $idPenulis = htmlspecialchars($data["bookAuthor"]);
     $genre = htmlspecialchars($data["bookCategory"]);
     $desc = htmlspecialchars($data["bookDescription"]);
     $image = $data["bookImage"];
@@ -30,7 +30,7 @@ function ubah($data)
         return false;
     }
 
-    $query = "UPDATE buku SET namaBuku = '$nama', penulis = '$penulis', id_category = '$genre', 
+    $query = "UPDATE buku SET namaBuku = '$nama', id_category = '$genre', 
     sinopsis = '$desc', gambar = '$image', file = '$file' WHERE idBuku = $id";
     mysqli_query($conn, $query);
     return mysqli_affected_rows($conn);
@@ -106,8 +106,7 @@ function cari($key)
     $key = "%{$key}%";
 
     $query = "SELECT * FROM buku 
-    WHERE namaBuku LIKE '$key'
-    OR penulis LIKE '$key'";
+    WHERE namaBuku LIKE '$key'";
 
     return query($query);
 }

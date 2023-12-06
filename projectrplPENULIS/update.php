@@ -1,12 +1,12 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["login"])) {
-    header("Location: ../projectrpl/login.php");
+if (!isset($_SESSION["LOGIN"])) {
+    header("Location: login.php");
     exit;
 }
 
-require '../CRUD/functions.php';
+require '../functions/functions_penulis.php';
 
 $id = $_GET["id"];
 
@@ -14,18 +14,18 @@ $usr = query("SELECT * FROM buku WHERE idBuku='$id'")[0];
 
 $categories = query("SELECT * FROM category");
 
-$writers = query("SELECT * FROM data_penulis");
+$writer = query("SELECT * FROM data_penulis WHERE id='$_SESSION[id]'");
 
 if (isset($_POST["tambahBuku"])) {
     if (ubah($_POST) > 0) {
         echo "<script>
              alert('Data berhasil diubah');
-             document.location.href = '../projectrpl/aktifitas.php';
+             document.location.href = 'aktifitas.php';
              </script>";
     } else {
         echo "<script>
         alert('Data gagal diubah');
-        document.location.href = '../projectrpl/aktifitas.php';
+        document.location.href = 'aktifitas.php';
         </script>";
     }
 }
@@ -60,15 +60,8 @@ if (isset($_POST["tambahBuku"])) {
             <div class="mb-3">
                 <label for="bookAuthor" class="form-label">Penulis:
                     <select name="bookAuthor" class="form-control">
-                        <option value="<?= $usr["id_category"]; ?>">
-                            <?php foreach ($writers as $row) { ?>
-                                <?php if ($row['id'] == $usr['id_penulis']) { ?>
-                                    <?php echo $row['nama']; ?>
-                                    <?php break; ?>
-                                <?php } ?>
-                            <?php } ?>
                         </option>
-                        <?php foreach ($writers as $row) { ?>
+                        <?php foreach ($writer as $row) { ?>
                             <option value="<?php echo $row['id']; ?>">
                                 <?php echo $row['nama']; ?>
                             </option>
@@ -103,7 +96,7 @@ if (isset($_POST["tambahBuku"])) {
 
             <div class=" mb-3">
                 <label for="bookImage" class="form-label">Gambar:</label>
-                <input type="file" id="bookImage" name="bookImage" class="form-control" value="../images/<?= $usr['gambar'] ?>">
+                <input type="file" id="bookImage" name="bookImage" class="form-control" value="<?= $usr["gambar"] ?>">
                 <a href="../images/<?= $usr['gambar'] ?>" class="link-dark">Current Image</a>
             </div>
 

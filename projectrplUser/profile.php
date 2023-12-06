@@ -121,7 +121,7 @@ $books = query("SELECT * FROM buku");
                     <input type="text" id="name" name="name" class="form-control" value="<?= $usr["nama"]; ?>" readonly />
                 </div>
                 <div class="mb-3">
-                    <label for="gambar" class="form-label">File:</label>
+                    <label for="gambar" class="form-label">Foto Profil Baru:</label>
                     <input type="file" id="gambar" name="gambar" class="form-control" />
                 </div>
                 <button type="submit" name="updateBuku" class="btn btn-primary">Edit Profile</button>

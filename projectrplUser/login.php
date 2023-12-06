@@ -35,12 +35,12 @@ if (isset($_POST["Login"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="perpuslogin.css">
+    <link href="../projectrpl/perpuslogin.css" rel="stylesheet" />
     <title>Perpustakaan Digital - Login</title>
 </head>
 
 <body>
-    <div class=class="d-flex justify-content-center align-items-center">
+    <div>
         <form class="p-5 rounded shadow" action="" method="POST">
             <h2 class="text-center">Login</h2>
             <?php if (isset($error)) : ?>
@@ -56,9 +56,13 @@ if (isset($_POST["Login"])) {
 
             <button type="submit" name="Login" class="btn btn-primary">Login</button>
         </form>
-
         <div class="register-link">
-            Belum punya akun? <a href="../projectrplUser/register.php">Daftar disini</a>
+            Belum punya akun? <a href="register.php">Daftar disini</a>
+        </div>
+        <div class="register-link">
+            <a href="../index.php">
+                Kembali ke halaman utama
+            </a>
         </div>
     </div>
 </body>

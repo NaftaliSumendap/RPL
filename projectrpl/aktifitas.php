@@ -26,6 +26,8 @@ $user = query("SELECT * FROM data_user");
 
 $categories = query("SELECT * FROM category");
 
+$writers = query("SELECT * FROM data_penulis");
+
 $bulan = query("SELECT bulan FROM penjualan WHERE tahun=2023");
 
 if (isset($_POST["addCate"])) {
@@ -114,58 +116,13 @@ if (isset($_POST["addCate"])) {
                     <?php foreach ($bulan as $row) : ?>
                         <tr>
                             <td><?= $row["bulan"] ?></td>
-                            <td><?php count_total_book_month($usr) ?></td>
-                            <td>0</td>
+                            <td><?php echo count_total_book() ?></td>
+                            <td><?php echo avgRating() ?></td>
+                        </tr>
                             <?php $i++ ?>
                         <?php endforeach; ?>
                 </tbody>
             </table>
-        </section>
-
-        <section id="addBook">
-            <h2>Tambah Buku Baru</h2>
-            <form action="" method="post" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label for="bookTitle" class="form-label">Judul Buku:</label>
-                    <input type="text" id="bookTitle" name="bookTitle" class="form-control" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="bookAuthor" class="form-label">Penulis:</label>
-                    <input type="text" id="bookAuthor" name="bookAuthor" class="form-control" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="bookGenre" class="form-label">Category:</label>
-                    <select name="bookCategory" class="form-control">
-                        <option value="0">
-                            Select Category
-                        </option>
-                        <?php foreach ($categories as $category) { ?>
-                            <option value="<?php echo $category['id_category']; ?>">
-                                <?php echo $category['category']; ?>
-                            </option>
-                        <?php } ?>
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label for="bookDescription" class="form-label">Sinopsis:</label>
-                    <textarea id="bookDescription" name="bookDescription" class="form-control" required></textarea>
-                </div>
-
-                <div class="mb-3">
-                    <label for="bookImage" class="form-label">Gambar:</label>
-                    <input type="file" id="bookImage" name="bookImage" class="form-control">
-                </div>
-
-                <div class="mb-3">
-                    <label for="bookFile" class="form-label">File:</label>
-                    <input type="file" id="bookFile" name="bookFile" class="form-control">
-                </div>
-
-                <button type="submit" name="tambahBuku" class="btn btn-primary">Tambah Buku</button>
-            </form>
         </section>
 
         <section id="bookList">
@@ -190,7 +147,14 @@ if (isset($_POST["addCate"])) {
                                     <?= $row["namaBuku"]; ?>
                                 </a>
                             </td>
-                            <td><?= $row["penulis"]; ?></td>
+                            <td>
+                                <?php foreach ($writers as $writer) { ?>
+                                    <?php if ($writer['id'] == $row['id_penulis']) { ?>
+                                        <?php echo $writer['nama']; ?>
+                                        <?php break; ?>
+                                    <?php } ?>
+                                <?php } ?>
+                            </td>
                             <td>
                                 <?php foreach ($categories as $category) { ?>
                                     <?php if ($category['id_category'] == $row['id_category']) { ?>
@@ -230,7 +194,7 @@ if (isset($_POST["addCate"])) {
     </div>
 
     <div class="footer">
-        <p>&copy; 2023 Library Management System</p>
+        <p>&copy; 2023 Library Management System. All rights reserved.</p>
     </div>
     </div>
 </body>

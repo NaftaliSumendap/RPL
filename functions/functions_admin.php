@@ -34,58 +34,6 @@ function registrasi($data)
     return mysqli_affected_rows($conn);
 }
 
-function tambahBuku($data)
-{
-    global $conn;
-
-    $nama = $data["bookTitle"];
-    $penulis = $data["bookAuthor"];
-    $genre = $data["bookCategory"];
-    $desc = $data["bookDescription"];
-    $file = $data["bookFile"];
-
-    $image = uploadBuku();
-    if (!$image) {
-        return false;
-    }
-
-    $file = uploadFile();
-    if (!$file) {
-        return false;
-    }
-
-    mysqli_query($conn, "INSERT INTO buku VALUES(null, '$nama', '$penulis', '$genre', '$desc', 0, '$image', '$file')");
-
-    return mysqli_affected_rows($conn);
-}
-
-function uploadFile()
-{
-    $namaFile = $_FILES['bookFile']['name'];
-    $ukuranFile = $_FILES['bookFile']['size'];
-    $tmpName = $_FILES['bookFile']['tmp_name'];
-
-    $ekstensiGambarValid = ['txt', 'pdf', 'html'];
-    $ekstensiGambar = explode('.', $namaFile);
-    $ekstensiGambar = strtolower(end($ekstensiGambar));
-    if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
-        echo "<script>
-        alert('Upload format yang benar!'); 
-        </script>";
-        return false;
-    }
-
-    if ($ukuranFile > 5000000) {
-        echo "<script>
-        alert('Ukuran gambar terlalu besar!'); 
-        </script>";
-    }
-
-    move_uploaded_file($tmpName, '../files/'. $namaFile);
-
-    return $namaFile;
-}
-
 function updateUser($data)
 {
     global $conn;
@@ -93,7 +41,7 @@ function updateUser($data)
     $id = $data["id"];
     $nama = $data["name"];
     $email = $data["email"];
-    $gambar = htmlspecialchars($data["gambar"]);
+    $gambar = htmlspecialchars($data['gambar']);
 
     $gambar = update();
     if (!$gambar) {
@@ -142,41 +90,6 @@ function update()
     return $namaFile;
 }
 
-function uploadBuku()
-{
-    $namaFile = $_FILES['bookImage']['name'];
-    $ukuranFile = $_FILES['bookImage']['size'];
-    $error = $_FILES['bookImage']['error'];
-    $tmpName = $_FILES['bookImage']['tmp_name'];
-
-    if ($error === 4) {
-        echo "<script>
-        alert('pilih gambar terlebih dahulu!'); 
-        </script>";
-        return false;
-    }
-
-    $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
-    $ekstensiGambar = explode('.', $namaFile);
-    $ekstensiGambar = strtolower(end($ekstensiGambar));
-    if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
-        echo "<script>
-        alert('Upload format yang benar!'); 
-        </script>";
-        return false;
-    }
-
-    if ($ukuranFile > 5000000) {
-        echo "<script>
-        alert('Ukuran gambar terlalu besar!'); 
-        </script>";
-    }
-
-    move_uploaded_file($tmpName, '../images/' . $namaFile);
-
-    return $namaFile;
-}
-
 function query($query)
 {
     global $conn;
@@ -205,19 +118,6 @@ function count_total_book()
     $total = 0;
 
     $result = query("SELECT SUM(tot_pinjam) AS total FROM data_user");
-
-    foreach ($result as $row) {
-        $total = $row["total"];
-    }
-
-    return $total;
-}
-
-function count_total_book_month($bulan)
-{
-    $total = 0;
-
-    $result = query("SELECT SUM(total_penjualan) AS total FROM penjualan WHERE bulan='$bulan'");
 
     foreach ($result as $row) {
         $total = $row["total"];

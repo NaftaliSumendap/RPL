@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["login"])) {
+if (!isset($_SESSION["LOGIN"])) {
     header("Location: login.php");
     exit;
 }
@@ -16,7 +16,7 @@ $tampil = mysqli_query($conn, "SELECT * FROM category WHERE id_category='$_GET[i
 
 $usr = mysqli_fetch_array($tampil);
 
-$writers = query("SELECT * FROM data_penulis WHERE id");
+$writers = query("SELECT * FROM data_penulis");
 
 ?>
 <!DOCTYPE html>
@@ -56,7 +56,6 @@ $writers = query("SELECT * FROM data_penulis WHERE id");
                                     <?php break; ?>
                                 <?php } ?>
                             <?php } ?>
-                            <br></b></i>
                     </i></b></p>
             </div>
             <?php $i++ ?>

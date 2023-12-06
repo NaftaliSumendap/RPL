@@ -92,9 +92,6 @@ $usr = mysqli_fetch_array($tampil);
     </div>
   </div>
 
-  <footer>
-    <p>&copy; 2023 Perpustakaan Digital. All rights reserved.</p>
-  </footer>
 </body>
 
 </html>

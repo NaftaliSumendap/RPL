@@ -16,6 +16,7 @@ $tampil = mysqli_query($conn, "SELECT * FROM category WHERE id_category='$_GET[i
 
 $usr = mysqli_fetch_array($tampil);
 
+$writers = query("SELECT * FROM data_penulis");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +30,7 @@ $usr = mysqli_fetch_array($tampil);
 
 <body>
     <header>
-            <h1><?= $usr["category"] ?></h1>
+        <h1><?= $usr["category"] ?></h1>
         <nav>
             <ul>
                 <li><a href="hpuser.php">Beranda</a></li>
@@ -47,7 +48,14 @@ $usr = mysqli_fetch_array($tampil);
                 <a href="db_book.php?id=<?= $row["idBuku"]; ?>">
                     <h3><?php echo $row["namaBuku"]; ?></h3>
                 </a>
-                <p><i><b>Penulis: <?php echo $row["penulis"]; ?></i></b></p>
+                <p><i><b>Penulis:
+                            <?php foreach ($writers as $writer) { ?>
+                                <?php if ($writer['id'] == $row['id_penulis']) { ?>
+                                    <?php echo $writer['nama']; ?>
+                                    <?php break; ?>
+                                <?php } ?>
+                            <?php } ?>
+                    </i></b></p>
             </div>
             <?php $i++ ?>
         <?php endforeach; ?>

@@ -20,6 +20,7 @@ $usr = mysqli_fetch_array($tampil);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylespp.css">
+    <link rel="stylesheet" href="aktifitas.css">
     <title>Profil Anggota - <?= $usr["nama"] ?></title>
 </head>
 
@@ -45,36 +46,11 @@ $usr = mysqli_fetch_array($tampil);
         </div>
     </section>
 
-    <section id="borrowedBooks">
-        <h2>Riwayat Peminjaman</h2>
-        <!-- Daftar bacaan saat ini dan riwayat peminjaman -->
-        <div class="book">
-            <img src="book1.jpg" alt="Book Cover">
-            <h3>Judul Buku 1</h3>
-            <p>Penulis: Penulis Buku 1</p>
-            <!-- Informasi peminjaman atau status bacaan saat ini -->
-        </div>
-        <!-- Tambahkan lebih banyak buku sesuai kebutuhan -->
-    </section>
-
-    <section id="reviews">
-        <h2>Ulasan</h2>
-        <!-- Daftar ulasan yang diberikan oleh anggota -->
-        <div class="review">
-            <h3>Judul Buku 1</h3>
-            <p>Rating: 4/5</p>
-            <p>Ulasan: Lorem ipsum dolor sit amet, consectetur adipiscing elit. ...</p>
-        </div>
-    </section>
-
     <section id="accountSettings">
         <h2>Pengaturan Akun</h2>
         <a href="kelola_akun.php"><button class="manageAccountButton">Kelola Akun</button></a>
     </section>
 
-    <footer>
-        <p>&copy; 2023 Perpustakaan Digital. All rights reserved.</p>
-    </footer>
 </body>
 
 </html>

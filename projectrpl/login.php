@@ -40,7 +40,7 @@ if (isset($_POST["login"])) {
 </head>
 
 <body>
-    <div class=class="d-flex justify-content-center align-items-center">
+    <div>
         <form class="p-5 rounded shadow" action="" method="POST">
             <h2 class="text-center">Login</h2>
             <?php if (isset($error)) : ?>
@@ -56,9 +56,13 @@ if (isset($_POST["login"])) {
 
             <button type="submit" name="login" class="btn btn-primary">Login</button>
         </form>
-
         <div class="register-link">
-            Belum punya akun? <a href="../projectrpl/register.php">Daftar disini</a>
+            Belum punya akun? <a href="register.php">Daftar disini</a>
+        </div>
+        <div class="register-link">
+            <a href="../index.php">
+                Kembali ke halaman utama
+            </a>
         </div>
     </div>
 </body>

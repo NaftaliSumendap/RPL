@@ -1,5 +1,12 @@
 <?php
-require '../functions/functions_admin.php';
+session_start();
+
+if (!isset($_SESSION["LOGIN"])) {
+    header("Location: login.php");
+    exit;
+}
+
+require '../functions/functions_penulis.php';
 
 if (isset($_POST["tambahBuku"])) {
     if (tambahBuku($_POST) > 0) {
@@ -13,8 +20,19 @@ if (isset($_POST["tambahBuku"])) {
     }
 }
 
-$buku = query("SELECT * FROM buku");
+$id = $_SESSION["id"];
 
+$books = query("SELECT * FROM buku WHERE id_penulis='$_SESSION[id]'");
+
+$user = query("SELECT * FROM data_user");
+
+$categories = query("SELECT * FROM category");
+
+$writers = query("SELECT * FROM data_penulis");
+
+$writer = query("SELECT * FROM data_penulis WHERE id='$_SESSION[id]'");
+
+$bulan = query("SELECT bulan FROM penjualan WHERE tahun=2023");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,70 +40,27 @@ $buku = query("SELECT * FROM buku");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../projectrplPENULIS/aktifitas.css" rel="stylesheet" />
+    <link href="../projectrpl/aktifitas.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="index.css">
     <title>Library Management System</title>
 </head>
 
 <body>
     <header>
-        <h1>Perpustakaan Digital</h1>
+        <h1>Library Management System</h1>
         <nav>
             <ul>
-                <li><a href="hpuser.php">Beranda</a></li>
-                <li><a href="profil_anggota.html">Profil</a></li>
-                <li><a href="aktifitas.php">Aktifitas</a></li>
+                <li><a href="#uploadBook">Unggah Buku</a></li>
+                <li><a href="#manageBooks">Kelola Buku</a></li>
+                <li><a href="#salesTracking">Pelacakan Penjualan</a></li>
+                <li><a href="hpuser.php">Kembali</a></li>
             </ul>
         </nav>
     </header>
 
-    <nav>
-        <ul>
-            <li><a href="#members">Manajemen Anggota</a></li>
-            <li><a href="#statistics">Statistik Penggunaan</a></li>
-            <li><a href="#addBook">Tambah Buku Baru</a></li>
-        </ul>
-    </nav>
-
-    <section id="statistics">
-        <h2>Statistik Penggunaan</h2>
-        <p>Total Buku Dipinjam: 30</p>
-        <p>Rata-rata Rating: 4.2</p>
-
-        <!-- Tabel Dummy Statistik -->
-        <table>
-            <caption>Statistik Penggunaan Buku</caption>
-            <thead>
-                <tr>
-                    <th>Bulan</th>
-                    <th>Jumlah Dipinjam</th>
-                    <th>Rata-rata Rating</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Januari</td>
-                    <td>10</td>
-                    <td>4.5</td>
-                </tr>
-                <tr>
-                    <td>Februari</td>
-                    <td>8</td>
-                    <td>3.8</td>
-                </tr>
-                <tr>
-                    <td>Maret</td>
-                    <td>12</td>
-                    <td>4.0</td>
-                </tr>
-                <!-- Tambahkan baris statistik tambahan di sini -->
-            </tbody>
-        </table>
-    </section>
-
-
-    <section id="addBook">
+    <section id="uploadBook">
         <h2>Tambah Buku Baru</h2>
         <form action="" method="post" enctype="multipart/form-data">
             <div class="mb-3">
@@ -95,7 +70,14 @@ $buku = query("SELECT * FROM buku");
 
             <div class="mb-3">
                 <label for="bookAuthor" class="form-label">Penulis:</label>
-                <input type="text" id="bookAuthor" name="bookAuthor" class="form-control" required>
+                <select name="bookAuthor" class="form-control">
+                    </option>
+                    <?php foreach ($writer as $row) { ?>
+                        <option value="<?php echo $row['id']; ?>">
+                            <?php echo $row['nama']; ?>
+                        </option>
+                    <?php } ?>
+                </select>
             </div>
 
             <div class="mb-3">
@@ -104,15 +86,11 @@ $buku = query("SELECT * FROM buku");
                     <option value="0">
                         Select Category
                     </option>
-                    <option value="Kesehatan dan Kebugaran">
-                        Kesehatan dan Kebugaran
-                    </option>
-                    <option value="Hobi dan Keterampilan">
-                        Hobi dan Keterampilan
-                    </option>
-                    <option value="Ilmu Komputer dan Teknologi">
-                        Ilmu Komputer dan Teknologi
-                    </option>
+                    <?php foreach ($categories as $category) { ?>
+                        <option value="<?php echo $category['id_category']; ?>">
+                            <?php echo $category['category']; ?>
+                        </option>
+                    <?php } ?>
                 </select>
             </div>
 
@@ -135,9 +113,90 @@ $buku = query("SELECT * FROM buku");
         </form>
     </section>
 
-    <div class="footer">
+    <section id="manageBooks">
+        <h2>Semua Buku Anda</h2>
+        <table class="table table-bordered shadow">
+            <thead>
+                <th>#</th>
+                <th>Judul Buku</th>
+                <th>Penulis</th>
+                <th>Genre</th>
+                <th>Sinopsis</th>
+                <th>Aksi</th>
+            </thead>
+            <tbody>
+                <?php $i = 1; ?>
+                <?php foreach ($books as $row) : ?>
+                    <tr>
+                        <td><?= $i; ?></td>
+                        <td>
+                            <img styles="align-items: center;" width="100" src="../images/<?= $row["gambar"]; ?>" alt="Book Cover">
+                            <a class="link-dark d-block text-center" href="db_book.php?id=<?= $row["idBuku"]; ?>">
+                                <?= $row["namaBuku"]; ?>
+                            </a>
+                        </td>
+                        <td>
+                            <?php foreach ($writers as $writer) { ?>
+                                <?php if ($writer['id'] == $row['id_penulis']) { ?>
+                                    <?php echo $writer['nama']; ?>
+                                    <?php break; ?>
+                                <?php } ?>
+                            <?php } ?>
+                        </td>
+                        <td>
+                            <?php foreach ($categories as $category) { ?>
+                                <?php if ($category['id_category'] == $row['id_category']) { ?>
+                                    <?php echo $category['category']; ?>
+                                    <?php break; ?>
+                                <?php } ?>
+                            <?php } ?>
+                        </td>
+                        <td>
+                            <?= $row["sinopsis"]; ?>
+                        </td>
+                        <td>
+                            <a class="btn btn-warning" href="update.php?id=<?= $row["idBuku"]; ?>" class="btn btn-warning">Edit</a>
+                            <a class="btn btn-danger" href="hapus.php?id=<?= $row["idBuku"]; ?>" onclick="return confirm('Konfirmasi?');">Delete</a>
+                        </td>
+                    </tr>
+                    <?php $i++ ?>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </section>
+
+
+
+    <section id="salesTracking">
+        <h2>Pelacakan Penjualan</h2>
+        <!-- Tabel atau grafik pelacakan penjualan dapat ditambahkan di sini -->
+        <table>
+            <caption>Pelacakan Penjualan</caption>
+            <thead>
+                <tr>
+                    <th>Bulan</th>
+                    <th>Jumlah Penjualan</th>
+                    <th>Pendapatan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $i = 1; ?>
+                <?php foreach ($bulan as $row) : ?>
+                    <tr>
+                        <td><?= $row["bulan"] ?></td>
+                        <td><?php echo count_total_book($id) ?></td>
+                        <td>$<?php echo count_total_book($id)*5 ?></td>
+                    </tr>
+                    <?php $i++ ?>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </section>
+
+
+    <footer>
         <p>&copy; 2023 Library Management System</p>
-    </div>
+    </footer>
 </body>
 
 </html>

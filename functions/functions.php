@@ -10,6 +10,7 @@ function registrasi($data)
     $email = $data["email"];
     $password = mysqli_real_escape_string($conn, $data["password"]);
     $repassword = mysqli_real_escape_string($conn, $data["re-password"]);
+    $gambar = "default.jpg";
 
     $result = mysqli_query($conn, "SELECT email FROM data_user WHERE email = '$email'");
 
@@ -29,7 +30,7 @@ function registrasi($data)
 
     $password = password_hash($password, PASSWORD_DEFAULT);
 
-    mysqli_query($conn, "INSERT INTO data_user VALUES(null, '$nama', '$email', '$password', 10)");
+    mysqli_query($conn, "INSERT INTO data_user VALUES(null, '$nama', '$email', '$password', '$gambar', 10, 0)");
 
     return mysqli_affected_rows($conn);
 }
@@ -50,8 +51,7 @@ function cari($key)
     $key = "%{$key}%";
 
     $query = "SELECT * FROM buku 
-    WHERE namaBuku LIKE '$key'
-    OR penulis LIKE '$key'";
+    WHERE namaBuku LIKE '$key'";
 
     return query($query);
 }

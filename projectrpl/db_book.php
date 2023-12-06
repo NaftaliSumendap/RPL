@@ -15,6 +15,10 @@ $result = query("SELECT * FROM buku WHERE idBuku='$id'");
 $tampil = mysqli_query($conn, "SELECT * FROM buku WHERE idBuku='$_GET[id]'");
 
 $book = mysqli_fetch_array($tampil);
+
+$writers = query("SELECT * FROM data_penulis");
+
+$review = query("SELECT * FROM review WHERE id_buku=$id");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,7 +47,15 @@ $book = mysqli_fetch_array($tampil);
             </div>
             <div class="bookInfo">
                 <h2><?php echo $row["namaBuku"]; ?></h2>
-                <p>Penulis: <?php echo $row["penulis"]; ?></p>
+                <p>Penulis:
+                    <?php foreach ($writers as $writer) { ?>
+                        <?php if ($writer['id'] == $book['id_penulis']) { ?>
+                            <?php echo $writer['nama']; ?>
+                            <?php break; ?>
+                        <?php } ?>
+                    <?php } ?>
+                    <br></b></i>
+                </p>
                 <p>Sinopsis: <?php echo $row["sinopsis"]; ?></p>
                 <!-- Informasi lainnya tentang buku -->
                 <!-- Gantilah "Pinjam" dengan "Beli" jika lebih sesuai -->
@@ -53,18 +65,22 @@ $book = mysqli_fetch_array($tampil);
 
     <section id="reviews">
         <h2>Ulasan dan Peringkat</h2>
-        <!-- Bagian ulasan dan peringkat dapat ditampilkan di sini -->
-        <div class="review">
-            <h3>Nama Pengulas</h3>
-            <p>Rating: 5/5</p>
-            <p>Ulasan: Lorem ipsum dolor sit amet, consectetur adipiscing elit. ...</p>
-        </div>
-        <!-- Tambahkan lebih banyak ulasan sesuai kebutuhan -->
+        <?php foreach ($review as $row) : ?>
+            <div class="review">
+                <h3>
+                    <?php foreach ($users as $user) { ?>
+                        <?php if ($user['id'] == $row['id_user']) { ?>
+                            <?php echo $user['nama']; ?>
+                            <?php break; ?>
+                        <?php } ?>
+                    <?php } ?>
+                </h3>
+                <p>Rating: <?php echo $row["rating"] ?></p>
+                <p>Ulasan: <?php echo $row["ulasan"] ?></p>
+            </div>
+        <?php endforeach; ?>
     </section>
 
-    <footer>
-        <p>&copy; 2023 Perpustakaan Digital. All rights reserved.</p>
-    </footer>
 </body>
 
 </html>

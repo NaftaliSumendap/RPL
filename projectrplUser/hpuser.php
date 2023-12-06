@@ -10,9 +10,11 @@ require '../CRUD/functions.php';
 
 $key = query("SELECT * FROM buku ORDER BY namaBuku ASC");
 
-$populer = query("SELECT * FROM buku ORDER BY tot_pinjam DESC LIMIT 10");
+$populer = query("SELECT * FROM buku ORDER BY tot_pinjam DESC LIMIT 6");
 
 $categories = query("SELECT * FROM category");
+
+$writers = query("SELECT * FROM data_penulis");
 
 $tampil = mysqli_query($conn, "SELECT * FROM data_user WHERE id='$_SESSION[id]'");
 
@@ -55,7 +57,7 @@ $usr = mysqli_fetch_array($tampil);
         <h2>Pencarian Buku</h2>
         <form action="searching.php" method="GET">
             <div class="input-group my-5">
-                <input class="form-control" type="text" placeholder="Cari buku atau penulis..." name="key" autocomplete="off" autofocus />
+                <input class="form-control" type="text" placeholder="Cari buku..." name="key" autocomplete="off" autofocus />
                 <button class="input-group-textbtn btn-primary" name="cari">Cari</button>
             </div>
         </form>
@@ -85,7 +87,13 @@ $usr = mysqli_fetch_array($tampil);
                                         <?= $book['namaBuku'] ?>
                                     </h5>
                                     <p class="card-text">
-                                        <i><b>Penulis: <?= $book['penulis'] ?>
+                                        <i><b>Penulis:
+                                                <?php foreach ($writers as $writer) { ?>
+                                                    <?php if ($writer['id'] == $book['id_penulis']) { ?>
+                                                        <?php echo $writer['nama']; ?>
+                                                        <?php break; ?>
+                                                    <?php } ?>
+                                                <?php } ?>
                                                 <br></b></i>
                                         <?= $book['sinopsis'] ?>
                                         <br><i><b>Category:
@@ -131,7 +139,13 @@ $usr = mysqli_fetch_array($tampil);
                                 <?= $book['namaBuku'] ?>
                             </h5>
                             <p class="card-text">
-                                <i><b>Penulis: <?= $book['penulis'] ?>
+                                <i><b>Penulis:
+                                        <?php foreach ($writers as $writer) { ?>
+                                            <?php if ($writer['id'] == $book['id_penulis']) { ?>
+                                                <?php echo $writer['nama']; ?>
+                                                <?php break; ?>
+                                            <?php } ?>
+                                        <?php } ?>
                                         <br></b></i>
                                 <?= $book['sinopsis'] ?>
                                 <br><i><b>Category:

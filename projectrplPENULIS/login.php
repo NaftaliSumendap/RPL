@@ -1,16 +1,24 @@
 <?php
-require '../functions/functions.php';
+session_start();
 
-if (isset($_POST["login"])) {
+if (isset($_SESSION["Login"])) {
+    header("Location: hpuser.php");
+}
+
+require '../functions/functions_penulis.php';
+
+if (isset($_POST["LOGIN"])) {
 
     $nama = $_POST["username"];
     $password = $_POST["password"];
 
-    $result = mysqli_query($conn, "SELECT * FROM penulis_user WHERE nama='$nama'");
+    $result = mysqli_query($conn, "SELECT * FROM data_penulis WHERE nama='$nama'");
 
     if (mysqli_num_rows($result) === 1) {
         $row = mysqli_fetch_assoc($result);
         if (password_verify($password, $row["password"])) {
+            $_SESSION["LOGIN"] = true;
+            $_SESSION["id"] = $row["id"];
             header("Location: hpuser.php");
             exit;
         }
@@ -32,7 +40,7 @@ if (isset($_POST["login"])) {
 </head>
 
 <body>
-    <div class=class="d-flex justify-content-center align-items-center">
+    <div>
         <form class="p-5 rounded shadow" action="" method="POST">
             <h2 class="text-center">Login</h2>
             <?php if (isset($error)) : ?>
@@ -46,11 +54,16 @@ if (isset($_POST["login"])) {
             <label for="password" class="form-label">Password:</label>
             <input type="password" id="password" name="password" class="form-control" required>
 
-            <button type="submit" name="login" class="btn btn-primary">Login</button>
+            <button type="submit" name="LOGIN" class="btn btn-primary">Login</button>
         </form>
 
         <div class="register-link">
-            Belum punya akun? <a href="../projectrplPENULIS/register.php">Daftar disini</a>
+            Belum punya akun? <a href="register.php">Daftar disini</a>
+        </div>
+        <div class="register-link">
+            <a href="../index.php">
+                Kembali ke halaman utama
+            </a>
         </div>
     </div>
 </body>

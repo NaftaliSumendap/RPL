@@ -1,9 +1,24 @@
 <?php
+session_start();
+
+if (!isset($_SESSION["LOGIN"])) {
+    header("Location: login.php");
+    exit;
+}
+
 require '../CRUD/functions.php';
 
 $key = query("SELECT * FROM buku ORDER BY namaBuku ASC");
 
-$populer = query("SELECT * FROM buku ORDER BY tot_pinjam DESC LIMIT 10");
+$populer = query("SELECT * FROM buku ORDER BY tot_pinjam DESC LIMIT 6");
+
+$categories = query("SELECT * FROM category");
+
+$writers = query("SELECT * FROM data_penulis");
+
+$tampil = mysqli_query($conn, "SELECT * FROM data_user WHERE id='$_SESSION[id]'");
+
+$usr = mysqli_fetch_array($tampil);
 
 ?>
 <!DOCTYPE html>
@@ -25,8 +40,8 @@ $populer = query("SELECT * FROM buku ORDER BY tot_pinjam DESC LIMIT 10");
         <nav>
             <ul>
                 <li><a href="hpuser.php">Beranda</a></li>
-                <li><a href="aktifitas.php">Aktifitas</a></li>
-                <li><a href="logout.php">Log Out</a></li>
+                <li><a href="aktifitas.php">Profile</a></li>
+                <li><a href="logout.php" onclick="return confirm('Keluar?')">Log Out</a></li>
             </ul>
         </nav>
     </header>
@@ -41,9 +56,9 @@ $populer = query("SELECT * FROM buku ORDER BY tot_pinjam DESC LIMIT 10");
 
     <section id="search">
         <h2>Pencarian Buku</h2>
-        <form action="../CRUD/searching.php" method="GET">
+        <form action="searching.php" method="GET">
             <div class="input-group my-5">
-                <input class="form-control" type="text" placeholder="Cari Buku..." name="key" autocomplete="off" autofocus />
+                <input class="form-control" type="text" placeholder="Cari buku..." name="key" autocomplete="off" autofocus />
                 <button class="input-group-textbtn btn-primary" name="cari">Cari</button>
             </div>
         </form>
@@ -73,16 +88,25 @@ $populer = query("SELECT * FROM buku ORDER BY tot_pinjam DESC LIMIT 10");
                                         <?= $book['namaBuku'] ?>
                                     </h5>
                                     <p class="card-text">
-                                        <i><b>Penulis: <?= $book['penulis'] ?>
+                                        <i><b>Penulis:
+                                                <?php foreach ($writers as $writer) { ?>
+                                                    <?php if ($writer['id'] == $book['id_penulis']) { ?>
+                                                        <?php echo $writer['nama']; ?>
+                                                        <?php break; ?>
+                                                    <?php } ?>
+                                                <?php } ?>
                                                 <br></b></i>
                                         <?= $book['sinopsis'] ?>
                                         <br><i><b>Category:
                                                 <br></b></i>
-                                        <?= $book['genre'] ?>
+                                        <?php foreach ($categories as $category) { ?>
+                                            <?php if ($category['id_category'] == $book['id_category']) { ?>
+                                                <?php echo $category['category']; ?>
+                                                <?php break; ?>
+                                            <?php } ?>
+                                        <?php } ?>
                                     </p>
-                                    <a href="../images/<?= $book['gambar'] ?>" class="btn btn-success">Open</a>
-
-                                    <a href="../images/<?= $book['gambar'] ?>" class="btn btn-primary" download="<?= $book['namaBuku'] ?>">Download</a>
+                                    <a href="pinjam.php?id=<?= $usr["id"] ?>&idBuku=<?= $book['idBuku'] ?>" class="btn btn-success" onclick="return confirm('Yakin Meminjam? Peminjaman ini akan mengurangi jatah pinjam Anda!')">Pinjam</a>
                                 </div>
                             </div>
                         <?php } ?>
@@ -116,16 +140,27 @@ $populer = query("SELECT * FROM buku ORDER BY tot_pinjam DESC LIMIT 10");
                                 <?= $book['namaBuku'] ?>
                             </h5>
                             <p class="card-text">
-                                <i><b>Penulis: <?= $book['penulis'] ?>
+                                <i><b>Penulis:
+                                        <?php foreach ($writers as $writer) { ?>
+                                            <?php if ($writer['id'] == $book['id_penulis']) { ?>
+                                                <?php echo $writer['nama']; ?>
+                                                <?php break; ?>
+                                            <?php } ?>
+                                        <?php } ?>
                                         <br></b></i>
                                 <?= $book['sinopsis'] ?>
                                 <br><i><b>Category:
                                         <br></b></i>
-                                <?= $book['genre'] ?>
+                                <?php foreach ($categories as $category) { ?>
+                                    <?php if ($category['id_category'] == $book['id_category']) { ?>
+                                        <?php echo $category['category']; ?>
+                                        <?php break; ?>
+                                    <?php } ?>
+                                <?php } ?>
                             </p>
-                            <a href="../images/<?= $book['gambar'] ?>" class="btn btn-success">Open</a>
+                            <a href="db_book.php?id=<?= $book["idBuku"]; ?>" class="btn btn-primary" n\>Lihat</a>
 
-                            <a href="../images/<?= $book['gambar'] ?>" class="btn btn-primary" download="<?= $book['namaBuku'] ?>">Download</a>
+                            <a href="pinjam.php?id=<?= $usr["id"] ?>&idBuku=<?= $book['idBuku'] ?>" class="btn btn-success" onclick="return confirm('Yakin Meminjam? Peminjaman ini akan mengurangi jatah pinjam Anda!')">Pinjam</a>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -141,10 +176,11 @@ $populer = query("SELECT * FROM buku ORDER BY tot_pinjam DESC LIMIT 10");
         <h2>Kategori Buku</h2>
         <!-- Navigasi atau kategori buku dapat ditampilkan di sini -->
         <ul>
-            <li><a href="category1.php">Ilmu Komputer dan Teknologi</a></li>
-            <li><a href="category2.php">Kesehatan dan Kebugaran</a></li>
-            <li><a href="category3.php">Hobi dan Keterampilan</a></li>
-            <!-- Tambahkan lebih banyak kategori sesuai kebutuhan -->
+            <?php $i = 1; ?>
+            <?php foreach ($categories as $category) : ?>
+                <li><a href="category.php?id_category=<?= $category["id_category"]; ?>"><?= $category["category"]; ?></a></li>
+            <?php endforeach; ?>
+            <?php $i++ ?>
         </ul>
     </section>
     </div>
